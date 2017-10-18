@@ -24,6 +24,7 @@ mongoose.connect(`mongodb://${db.name}:${db.port}/test`)
     .then(() => { console.log('🌈 successfully connect to database'); })
     .catch((err) => { console.log(err); })
 
+const routes = require('./routes');
 const app = express();
 
 // 设置 HTTP 头
@@ -42,3 +43,6 @@ app.use(cors());
 
 app.use('/api', routes)
 
+app.listen(8000, () => {
+    console.log(`Server is running on port 3000`);
+})

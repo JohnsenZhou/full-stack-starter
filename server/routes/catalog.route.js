@@ -8,3 +8,8 @@ const router = express.Router();
 const paramSchema = {
   
 }
+
+router.route('/')
+  .post(catalogController.create);
+
+module.exports = router;
