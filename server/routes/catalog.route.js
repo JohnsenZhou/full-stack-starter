@@ -6,10 +6,15 @@ const catalogController = require('../controllers/catalog.controller');
 const router = express.Router();
 
 const paramSchema = {
-  
+  createCatalog: {
+    body: {
+      name: joi.string(),
+      phoneNum: joi.number()
+    }
+  }
 }
 
 router.route('/')
-  .post(catalogController.create);
+  .post(validate(paramSchema.createCatalog), catalogController.create);
 
 module.exports = router;
