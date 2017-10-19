@@ -42,14 +42,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
-function lalala(req, res, next) {
-    console.log(req.body);
-    next()
-}
-
 app.use('/qiniu', qiniu)
 
-app.use('/api', lalala, routes)
+app.use('/api', routes)
 
 app.listen(8000, () => {
     console.log(`Server is running on port 3000`);

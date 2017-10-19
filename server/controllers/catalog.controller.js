@@ -9,6 +9,11 @@ function create(req, res, next) {
   });
 
   newCatalog.save()
+    .then(() => {
+      res.json({
+        success: true
+      })
+    })
     .catch(err => next(err));
 }
 
