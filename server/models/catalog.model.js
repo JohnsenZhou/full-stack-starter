@@ -11,30 +11,30 @@ const CatalogSchema = new Schema({
     type: Number,
     required: true
   },
-  // avator: {
-  //   type: String,
-  //   required: true
-  // },
-  // age: {
-  //   type: Number,
-  //   min: 5,
-  //   max: 99
-  // },
-  // address: {
-  //   type: String
-  // },
-  // birthday: {
-  //   type: String
-  // },
-  // email: {
-  //   type: String
-  // },
-  // company: {
-  //   type: String
-  // },
-  // relative: {
-  //   type: String
-  // }
+  avator: {
+    type: String,
+    required: true
+  },
+  age: {
+    type: Number,
+    min: 5,
+    max: 99
+  },
+  address: {
+    type: String
+  },
+  birthday: {
+    type: String
+  },
+  email: {
+    type: String
+  },
+  company: {
+    type: String
+  },
+  relative: {
+    type: String
+  }
 })
 
 module.exports = mongoose.model('Catalog', CatalogSchema);

@@ -9,7 +9,13 @@ const paramSchema = {
   createCatalog: {
     body: {
       name: joi.string(),
-      phoneNum: joi.number()
+      phoneNum: joi.number(),
+      avator: joi.string(),
+      age: joi.number(),
+      address: joi.string(),
+      birthday: joi.string(),
+      email: joi.string().email(),
+      company: joi.string()
     }
   }
 }

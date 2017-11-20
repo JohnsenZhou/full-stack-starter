@@ -1,11 +1,17 @@
 const Catalog = require('../models/catalog.model');
 
 function create(req, res, next) {
-  const { name, phoneNum } = req.body;
+  const { name, phoneNum, avator, age, address, birthday, email, company } = req.body;
   console.log(req.body)
   const newCatalog = new Catalog({
     name,
-    phoneNum
+    phoneNum,
+    avator,
+    age,
+    address,
+    birthday,
+    email,
+    company
   });
 
   newCatalog.save()
