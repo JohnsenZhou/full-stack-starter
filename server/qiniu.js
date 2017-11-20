@@ -2,12 +2,13 @@ const qiniu = require('qiniu');
 const express = require('express');
 const router = express.Router();
 
-qiniu.conf.ACCESS_KEY = 'sgQPiNDsYCVMSsSwWlnOQ_-ezKPZmFRhxMfb9af9';
-qiniu.conf.SECRET_KEY = 'dttIbTlTaOoSuW2vYqdtn1lkKemrVvC8EGbuV5uc';
+const accessKey = 'sgQPiNDsYCVMSsSwWlnOQ_-ezKPZmFRhxMfb9af9';
+const secretKey = 'dttIbTlTaOoSuW2vYqdtn1lkKemrVvC8EGbuV5uc';
 
 router.use('/', (req, res) => {
-  const putPolicy = new qiniu.rs.putPolicy('johnsendb');
-  const uptoken = putPolicy.token();
+  const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+  const putPolicy = new qiniu.rs.PutPolicy({scope: 'johnsendb'});
+  const uptoken = putPolicy.uploadToken(mac);
 
   res.json({
     uptoken

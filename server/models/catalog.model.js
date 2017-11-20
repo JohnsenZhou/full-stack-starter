@@ -7,12 +7,12 @@ const CatalogSchema = new Schema({
     type: String,
     required: true
   },
-  avator: {
-    type: String,
-    required: true
-  },
   phoneNum: {
     type: Number,
+    required: true
+  },
+  avator: {
+    type: String,
     required: true
   },
   age: {
@@ -36,3 +36,5 @@ const CatalogSchema = new Schema({
     type: String
   }
 })
+
+module.exports = mongoose.model('Catalog', CatalogSchema);

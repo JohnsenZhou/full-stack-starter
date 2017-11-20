@@ -20,10 +20,12 @@ const { port, db } = config;
 
 // 连接数据库
 mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://${db.name}:${db.port}/test`)
+mongoose.connect(`mongodb://${db.name}:${db.port}/test`, { useMongoClient: true })
     .then(() => { console.log('🌈 successfully connect to database'); })
     .catch((err) => { console.log(err); })
 
+const routes = require('./routes');
+const qiniu = require('./qiniu');
 const app = express();
 
 // 设置 HTTP 头
@@ -40,5 +42,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
+app.use('/qiniu', qiniu)
+
 app.use('/api', routes)
 
+app.listen(8000, () => {
+    console.log(`Server is running on port 8000`);
+})
+ 
