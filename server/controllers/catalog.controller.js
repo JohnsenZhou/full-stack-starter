@@ -23,7 +23,18 @@ function create(req, res, next) {
     .catch(err => next(err));
 }
 
-function findAll(req, res, next) {
+function itemLoading(req, res, next, id) {
+  Catalog.getById(id).then(catalog => {
+    req.catalog = catalog;
+    return next();
+  }).catch(err => next(err))
+}
+
+function getItemById(req, res) {
+  return res.json({success: true, data: req.catalog})
+}
+
+function getList(req, res, next) {
   const { limit, page } = req.query;
   console.log(limit, page);
 
@@ -38,5 +49,5 @@ function findAll(req, res, next) {
 }
 
 module.exports = {
-  create, findAll
+  create, itemLoading, getItemById, getList
 }

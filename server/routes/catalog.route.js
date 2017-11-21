@@ -21,7 +21,12 @@ const paramSchema = {
 }
 
 router.route('/')
-  .get(catalogController.findAll)
+  .get(catalogController.getList)
   .post(validate(paramSchema.createCatalog), catalogController.create);
+
+router.route('/:catalogId')
+  .get(catalogController.getItemById)
+
+router.param('catalogId', catalogController.itemLoading);
 
 module.exports = router;
