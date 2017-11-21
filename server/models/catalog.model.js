@@ -37,4 +37,15 @@ const CatalogSchema = new Schema({
   }
 })
 
+CatalogSchema.statics = {
+  
+  findList(query) {
+    return this.find()
+      .sort()
+      .skip(query.skip)
+      .limit(query.limit)
+      .exec();
+  }
+}
+
 module.exports = mongoose.model('Catalog', CatalogSchema);

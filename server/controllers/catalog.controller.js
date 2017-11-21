@@ -23,6 +23,20 @@ function create(req, res, next) {
     .catch(err => next(err));
 }
 
+function findAll(req, res, next) {
+  const { limit, skip } = req.query;
+  console.log(limit, skip);
+
+  Catalog.findList({limit: ~~limit, skip: ~~skip}).then(lists => {
+    res.json({
+      success: true,
+      page: { current: skip, total: lists.length },
+      data: lists
+    });
+  })
+  .catch(e => next(e));;
+}
+
 module.exports = {
-  create
+  create, findAll
 }
