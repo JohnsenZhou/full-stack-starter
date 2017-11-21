@@ -24,13 +24,13 @@ function create(req, res, next) {
 }
 
 function findAll(req, res, next) {
-  const { limit, skip } = req.query;
-  console.log(limit, skip);
+  const { limit, page } = req.query;
+  console.log(limit, page);
 
-  Catalog.findList({limit: ~~limit, skip: ~~skip}).then(lists => {
+  Catalog.findList({limit: ~~limit, skip: (~~page - 1) * limit}).then(lists => {
     res.json({
       success: true,
-      page: { current: skip, total: lists.length },
+      page: { current: page, total: lists.length },
       data: lists
     });
   })
