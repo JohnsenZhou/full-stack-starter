@@ -17,10 +17,33 @@ const paramSchema = {
       email: joi.string().email(),
       company: joi.string()
     }
+  },
+
+  updateCatalog: {
+    body: {
+      name: joi.string(),
+      phoneNum: joi.number(),
+      avator: joi.string(),
+      age: joi.number(),
+      address: joi.string(),
+      birthday: joi.string(),
+      email: joi.string().email(),
+      company: joi.string()
+    },
+    params: {
+      catalogId: joi.required()
+    }
   }
 }
 
 router.route('/')
+  .get(catalogController.getList)
   .post(validate(paramSchema.createCatalog), catalogController.create);
+
+router.route('/:catalogId')
+  .get(catalogController.getItemById)
+  .put(validate(paramSchema.updateCatalog), catalogController.update)
+
+router.param('catalogId', catalogController.itemLoading);
 
 module.exports = router;
