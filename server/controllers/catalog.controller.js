@@ -23,6 +23,40 @@ function create(req, res, next) {
     .catch(err => next(err));
 }
 
+function update(req, res, next) {
+  const { name, phoneNum, avator, age, address, birthday, email, company } = req.body;
+  const id = req.params.catalogId;
+  let { catalog } = req;
+
+  catalog = {
+    name, phoneNum, avator, age, address, birthday, email, company
+  }
+  // catalog.name = name;
+  // catalog.phoneNum = phoneNum;
+  // catalog.avator = avator;
+  // catalog.age = age;
+  // catalog.address = address;
+  // catalog.birthday = birthday;
+  // catalog.email = email;
+  // catalog.company = company;
+
+  Catalog.update({_id: {$gt: id}}, catalog, null, () => {
+    res.json({
+      success: true,
+      data: catalog
+    })
+  })
+
+  // catalog.save().then(() => {
+  //   res.json({
+  //     success: true,
+  //     data: catalog
+  //   })
+  // })
+  // .catch(err => next(err));
+
+}
+
 function itemLoading(req, res, next, id) {
   Catalog.getById(id).then(catalog => {
     req.catalog = catalog;
@@ -49,5 +83,5 @@ function getList(req, res, next) {
 }
 
 module.exports = {
-  create, itemLoading, getItemById, getList
+  create, update, itemLoading, getItemById, getList
 }

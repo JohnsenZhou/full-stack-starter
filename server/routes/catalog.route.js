@@ -31,7 +31,7 @@ const paramSchema = {
       company: joi.string()
     },
     params: {
-      catalogId: joi.number().required()
+      catalogId: joi.required()
     }
   }
 }
