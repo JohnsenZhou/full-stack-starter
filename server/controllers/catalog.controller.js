@@ -72,12 +72,14 @@ function getList(req, res, next) {
   const { limit, page } = req.query;
   console.log(limit, page);
 
-  Catalog.findList({limit: ~~limit, skip: (~~page - 1) * limit}).then(lists => {
-    res.json({
-      success: true,
-      page: { current: page, total: lists.length },
-      data: lists
-    });
+  Catalog.find().then(totalList => {
+    Catalog.findList({limit: ~~limit, skip: (~~page - 1) * limit}).then(lists => {
+      res.json({
+        success: true,
+        page: { current: page, total: totalList.length },
+        data: lists
+      });
+    })
   })
   .catch(e => next(e));;
 }

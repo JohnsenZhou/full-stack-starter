@@ -38,7 +38,12 @@ const CatalogSchema = new Schema({
 })
 
 CatalogSchema.statics = {
-
+  /**
+   * 通过Id搜索Catalog
+   * 
+   * @param {any} id 
+   * @returns 
+   */
   getById(id) {
     return this.findOne({_id: id})
       .exec()
@@ -52,6 +57,12 @@ CatalogSchema.statics = {
       })
   },
   
+  /**
+   * 分页查询：query:{skip,limit}，limit:每页数量；skip：跳过多少条目
+   * 
+   * @param {any} query 
+   * @returns 
+   */
   findList(query) {
     return this.find()
       .sort()
