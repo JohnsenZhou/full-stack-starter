@@ -31,30 +31,22 @@ function update(req, res, next) {
   catalog = {
     name, phoneNum, avator, age, address, birthday, email, company
   }
-  // catalog.name = name;
-  // catalog.phoneNum = phoneNum;
-  // catalog.avator = avator;
-  // catalog.age = age;
-  // catalog.address = address;
-  // catalog.birthday = birthday;
-  // catalog.email = email;
-  // catalog.company = company;
 
-  Catalog.update({_id: {$gt: id}}, catalog, null, () => {
+  Catalog.update({_id: id}, catalog, null, () => {
     res.json({
       success: true,
       data: catalog
     })
   })
+}
 
-  // catalog.save().then(() => {
-  //   res.json({
-  //     success: true,
-  //     data: catalog
-  //   })
-  // })
-  // .catch(err => next(err));
+function removeItem(req, res, next) {
+  const catalog = req.catalog;
+  console.log(catalog);
 
+  Catalog.remove({_id: catalog._id}, (lists) => {
+    console.log(lists)
+  })
 }
 
 function itemLoading(req, res, next, id) {
@@ -85,5 +77,5 @@ function getList(req, res, next) {
 }
 
 module.exports = {
-  create, update, itemLoading, getItemById, getList
+  create, update, removeItem, itemLoading, getItemById, getList
 }

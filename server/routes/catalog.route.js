@@ -43,6 +43,7 @@ router.route('/')
 router.route('/:catalogId')
   .get(catalogController.getItemById)
   .put(validate(paramSchema.updateCatalog), catalogController.update)
+  .delete(catalogController.removeItem)
 
 router.param('catalogId', catalogController.itemLoading);
 
