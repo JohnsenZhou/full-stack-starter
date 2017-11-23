@@ -25,17 +25,25 @@ function create(req, res, next) {
 
 function update(req, res, next) {
   const { name, phoneNum, avator, age, address, birthday, email, company } = req.body;
-  const id = req.params.catalogId;
   let { catalog } = req;
 
-  catalog = {
-    name, phoneNum, avator, age, address, birthday, email, company
-  }
+  catalog.name = name;
+  catalog.phoneNum = phoneNum;
+  catalog.avator = avator;
+  catalog.age = age;
+  catalog.address = address;
+  catalog.birthday = birthday;
+  catalog.email = email;
+  catalog.company = company;
+  catalog.updatedAt = new Date();
 
-  Catalog.update({_id: id}, catalog, null, () => {
-    res.json({
-      success: true,
-      data: catalog
+
+  Catalog.update({_id: catalog._id}, catalog, null, () => {
+    Catalog.getById(catalog._id).then(item => {
+      res.json({
+        success: true,
+        data: item
+      })
     })
   })
 }

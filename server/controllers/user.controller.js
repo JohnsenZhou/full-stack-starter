@@ -1,12 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken'); // token
 const config = require('../../config');
 
-// default user
-const user = {
-  username: 'johnsen',
-  password: 'helloword'
-};
-
 /**
  * Returns token when login successfully
  * @param {any} req
@@ -15,7 +9,7 @@ const user = {
  * @returns
  */
 function login(req, res, next) {
-  const { username, password } = req.body;
+  const { username, password, phoneNum } = req.body;
 
   if (username === user.username && password === user.password) {
     const token = jsonwebtoken.sign({

@@ -12,10 +12,19 @@ const paramSchema  = {
       username: joi.string().required(),
       password: joi.string().required()
     }
+  },
+
+  signup: {
+    username: joi.string().required(),
+    password: joi.string().required(),
+    phoneNum: joi.number().required()
   }
 };
 
 router.route('/login')
   .post(validate(paramSchema.login), userController.login);
+
+router.route('/signup')
+  .post(validate(paramSchema.signup), userController.signup);
 
 module.exports = router;
