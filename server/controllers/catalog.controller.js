@@ -25,36 +25,36 @@ function create(req, res, next) {
 
 function update(req, res, next) {
   const { name, phoneNum, avator, age, address, birthday, email, company } = req.body;
-  const id = req.params.catalogId;
   let { catalog } = req;
 
-  catalog = {
-    name, phoneNum, avator, age, address, birthday, email, company
-  }
-  // catalog.name = name;
-  // catalog.phoneNum = phoneNum;
-  // catalog.avator = avator;
-  // catalog.age = age;
-  // catalog.address = address;
-  // catalog.birthday = birthday;
-  // catalog.email = email;
-  // catalog.company = company;
+  catalog.name = name;
+  catalog.phoneNum = phoneNum;
+  catalog.avator = avator;
+  catalog.age = age;
+  catalog.address = address;
+  catalog.birthday = birthday;
+  catalog.email = email;
+  catalog.company = company;
+  catalog.updatedAt = new Date();
 
-  Catalog.update({_id: {$gt: id}}, catalog, null, () => {
-    res.json({
-      success: true,
-      data: catalog
+
+  Catalog.update({_id: catalog._id}, catalog, null, () => {
+    Catalog.getById(catalog._id).then(item => {
+      res.json({
+        success: true,
+        data: item
+      })
     })
   })
+}
 
-  // catalog.save().then(() => {
-  //   res.json({
-  //     success: true,
-  //     data: catalog
-  //   })
-  // })
-  // .catch(err => next(err));
+function removeItem(req, res, next) {
+  const catalog = req.catalog;
+  console.log(catalog);
 
+  Catalog.remove({_id: catalog._id}, (lists) => {
+    console.log(lists)
+  })
 }
 
 function itemLoading(req, res, next, id) {
@@ -72,16 +72,18 @@ function getList(req, res, next) {
   const { limit, page } = req.query;
   console.log(limit, page);
 
-  Catalog.findList({limit: ~~limit, skip: (~~page - 1) * limit}).then(lists => {
-    res.json({
-      success: true,
-      page: { current: page, total: lists.length },
-      data: lists
-    });
+  Catalog.find().then(totalList => {
+    Catalog.findList({limit: ~~limit, skip: (~~page - 1) * limit}).then(lists => {
+      res.json({
+        success: true,
+        page: { current: page, total: totalList.length },
+        data: lists
+      });
+    })
   })
   .catch(e => next(e));;
 }
 
 module.exports = {
-  create, update, itemLoading, getItemById, getList
+  create, update, removeItem, itemLoading, getItemById, getList
 }

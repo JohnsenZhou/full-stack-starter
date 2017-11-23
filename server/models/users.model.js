@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Promise = global.Promise;
 
-const CatalogSchema = new Schema({
-  name: {
+const UserSchema = new Schema({
+  username: {
     type: String,
     required: true
   },
@@ -11,54 +11,35 @@ const CatalogSchema = new Schema({
     type: Number,
     required: true
   },
-  avator: {
+  password: {
     type: String,
     required: true
   },
-  age: {
+  createAt: {
     type: Number,
     min: 5,
     max: 99
-  },
-  address: {
-    type: String
-  },
-  birthday: {
-    type: String
-  },
-  email: {
-    type: String
-  },
-  company: {
-    type: String
-  },
-  relative: {
-    type: String
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   },
   updatedAt: {
     type: Date
   }
 })
 
-CatalogSchema.statics = {
+UserSchema.statics = {
   /**
-   * 通过Id搜索Catalog
+   * 通过name搜索user
    * 
-   * @param {any} id 
+   * @param {any} name
    * @returns 
    */
-  getById(id) {
-    return this.findOne({_id: id})
+  getByName(name) {
+    return this.findOne({username: name})
       .exec()
-      .then(list => {
-        if (list) {
-          return list
+      .then(user => {
+        if (user) {
+          return user
         } else {
-          const err = new Error("Can't found this catalog");
+          const err = new Error("Can't found user");
           return Promise.reject(err);
         }
       })
@@ -79,4 +60,4 @@ CatalogSchema.statics = {
   }
 }
 
-module.exports = mongoose.model('Catalog', CatalogSchema);
+module.exports = mongoose.model('User', UserSchema);
