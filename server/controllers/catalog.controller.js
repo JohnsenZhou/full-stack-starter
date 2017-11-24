@@ -1,7 +1,7 @@
 const Catalog = require('../models/catalog.model');
 
 function create(req, res, next) {
-  const { name, phoneNum, avator, age, address, birthday, email, company } = req.body;
+  const { name, phoneNum, avator, age, address, birthday, email, company, userId } = req.body;
   console.log(req.body)
   const newCatalog = new Catalog({
     name,
@@ -11,7 +11,8 @@ function create(req, res, next) {
     address,
     birthday,
     email,
-    company
+    company,
+    userId
   });
 
   newCatalog.save()
@@ -24,7 +25,7 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
-  const { name, phoneNum, avator, age, address, birthday, email, company } = req.body;
+  const { name, phoneNum, avator, age, address, birthday, email, company, userId } = req.body;
   let { catalog } = req;
 
   catalog.name = name;
@@ -35,6 +36,7 @@ function update(req, res, next) {
   catalog.birthday = birthday;
   catalog.email = email;
   catalog.company = company;
+  catalog.userId = userId;
   catalog.updatedAt = new Date();
 
 
