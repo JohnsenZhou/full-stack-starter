@@ -50,10 +50,20 @@ function update(req, res, next) {
 
 function removeItem(req, res, next) {
   const catalog = req.catalog;
-  console.log(catalog);
 
-  Catalog.remove({_id: catalog._id}, (lists) => {
-    console.log(lists)
+  Catalog.remove({_id: catalog._id}, (err, lists) => {
+    console.log(lists);
+    if (err) {
+      res.json({
+        success: false,
+        errMsg: "删除失败"
+      })
+    } else {
+      res.json({
+        success: true,
+        msg: "删除成功"
+      })
+    }
   })
 }
 
@@ -80,8 +90,9 @@ function getList(req, res, next) {
         data: lists
       });
     })
+    .catch(e => next(e));
   })
-  .catch(e => next(e));;
+  .catch(e => next(e));
 }
 
 module.exports = {

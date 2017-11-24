@@ -16,9 +16,8 @@ const UserSchema = new Schema({
     required: true
   },
   createAt: {
-    type: Number,
-    min: 5,
-    max: 99
+    type: Date,
+    default: Date.now
   },
   updatedAt: {
     type: Date
@@ -27,22 +26,15 @@ const UserSchema = new Schema({
 
 UserSchema.statics = {
   /**
-   * 通过name搜索user
+   * 通过手机号或用户名搜索user
    * 
-   * @param {any} name
+   * @param {any} query 
    * @returns 
    */
-  getByName(name) {
-    return this.findOne({username: name})
+  checkUser(query) {
+    return this.find()
+      .or([{username: query.username}, {phoneNum: query.phoneNum}])
       .exec()
-      .then(user => {
-        if (user) {
-          return user
-        } else {
-          const err = new Error("Can't found user");
-          return Promise.reject(err);
-        }
-      })
   },
   
   /**
@@ -51,7 +43,7 @@ UserSchema.statics = {
    * @param {any} query 
    * @returns 
    */
-  findList(query) {
+  findUserList(query) {
     return this.find()
       .sort()
       .skip(query.skip)
