@@ -15,6 +15,10 @@ const CatalogSchema = new Schema({
     type: String,
     required: true
   },
+  userId: {
+    type: String,
+    required: true
+  },
   age: {
     type: Number,
     min: 5,
