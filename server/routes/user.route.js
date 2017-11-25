@@ -27,4 +27,7 @@ router.route('/login')
 router.route('/signup')
   .post(validate(paramSchema.signup), userController.signup);
 
+router.route('/')
+  .get(userController.getUserList)
+
 module.exports = router;

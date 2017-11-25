@@ -44,6 +44,7 @@ UserSchema.statics = {
    * @returns 
    */
   findUserList(query) {
+    console.log(query)
     return this.find()
       .sort()
       .skip(query.skip)
