@@ -68,6 +68,24 @@ function signup(req, res, next) {
   })
 }
 
+
+function getUserList(req, res, next) {
+  const { limit, page } = req.query;
+  const skip = (~~page - 1) * limit > 0 ? (~~page - 1) * limit : 0;
+
+  User.find().then(totalList => {
+    User.findUserList({limit: ~~limit, skip}).then(lists => {
+      res.json({
+        success: true,
+        page: { current: page, total: totalList.length },
+        data: lists
+      });
+    })
+    .catch(e => next(e));
+  })
+  .catch(e => next(e));
+}
+
 module.exports = {
-  login, signup
+  login, signup, getUserList
 };
