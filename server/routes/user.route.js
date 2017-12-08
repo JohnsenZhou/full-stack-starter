@@ -9,7 +9,7 @@ const router = express.Router();
 const paramSchema  = {
   login: {
     body: {
-      username: joi.string().required(),
+      phoneNum: joi.number().required(),
       password: joi.string().required()
     }
   },

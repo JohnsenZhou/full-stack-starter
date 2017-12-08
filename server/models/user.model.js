@@ -28,12 +28,11 @@ UserSchema.statics = {
   /**
    * 通过手机号或用户名搜索user
    * 
-   * @param {any} query 
+   * @param {any} phoneNum 
    * @returns 
    */
-  checkUser(query) {
-    return this.find()
-      .or([{username: query.username}, {phoneNum: query.phoneNum}])
+  checkUser(phoneNum) {
+    return this.findOne({phoneNum})
       .exec()
   },
   

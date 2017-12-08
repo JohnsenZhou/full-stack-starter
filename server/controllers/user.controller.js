@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
-const jsonwebtoken = require('jsonwebtoken'); // token
+const jsonwebtoken = require('jsonwebtoken');
 const config = require('../../config');
+const verifyToken = require('../middlewares/tokenCheck');
 
 /**
  * Returns token when login successfully
@@ -10,28 +11,32 @@ const config = require('../../config');
  * @returns
  */
 function login(req, res, next) {
-  const { username, password, phoneNum } = req.body;
+  const { password, phoneNum } = req.body;
 
-  if (username === user.username && password === user.password) {
-    const token = jsonwebtoken.sign({
-      username
-    }, config.jwtSecret);
+  User.checkUser(phoneNum).then(user => {
+    if (user) {
+      if (user.password === password) {
+        // generator user token, expires: 7 days
+        const token = jsonwebtoken.sign({
+          userId: user._id
+        }, config.jwtSecret, { expiresIn: '7d' });
 
-    return res.json({
-      success: true,
-      data: {
-        token,
-        username
+        res.json({
+          success: true,
+          data: {
+            token
+          }
+        })
       }
-    })
-  } else {
-    res.json({
-      success: false
-    })
-  }
+      
+    } else {
+      res.json({
+        success: false,
+        errMsg: "用户不存在"
+      })
+    }
+  })
 
-  const err = new Error('check username or password');
-  return next(err);
 }
 
 /**
@@ -49,9 +54,9 @@ function signup(req, res, next) {
     phoneNum
   })
   
-  User.checkUser({username, phoneNum}).then(user => {
-    console.log(user);
-    if (user.length) {
+  User.checkUser(phoneNum).then(user => {
+    // console.log(user);
+    if (user) {
       return res.json({
         success: false,
         msg: "用户已存在"

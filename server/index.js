@@ -42,11 +42,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.use('/qiniu', qiniu)
+app.use('/qiniu', qiniu);
 
-app.use('/api', routes)
+app.use('/api', routes);
+
+// system error handler
+app.use((err, req, res, next) => {
+    res.json({
+        success: false,
+        errMsg: err.message
+    })
+});
 
 app.listen(8000, () => {
-    console.log(`Server is running on port 8000`);
+    console.log(`🐳 => Server is running on port 8000`);
 })
  
